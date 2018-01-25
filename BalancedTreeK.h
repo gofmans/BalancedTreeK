@@ -30,12 +30,10 @@ public:
         root->Children[0] = new BTKNode();
         root->Children[0]->parent = root;
         root->Children[0]->leaf = true;
-        root->Children[0]->sentinal = true;
         root->Children[0]->key = _min;
         root->Children[1] = new BTKNode();
         root->Children[1]->parent = root;
         root->Children[1]->leaf = true;
-        root->Children[1]->sentinal = true;
         root->Children[1]->key = _max;
         root->key = _max;
         root->Cnum = 2;

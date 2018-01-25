@@ -34,7 +34,6 @@ public:
             Children[i] = NULL;
         Cnum = 0;
         leaf = false;
-        sentinal = false;
         totaLeafs = 0;
         key = NULL;
         val = NULL;
@@ -53,7 +52,6 @@ public:
         else
             totaLeafs = 0;
         leaf = _leaf;
-        sentinal = false;
         key=_key;
         val=_val;
     };
