@@ -20,7 +20,6 @@ private:
     BTKNode* Children[2*K-1];     // An array of child pointers, initially contain NULL
     unsigned Cnum;      // Current number of children
     bool leaf;      // Is true when node is leaf. Otherwise false
-    bool sentinal;
     unsigned totaLeafs; // total number of leafs roted at this
     Key* key;        //key if leaf - maximum key in sub tree if not
     Value* val;      //value of leaf

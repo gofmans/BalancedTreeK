@@ -41,7 +41,7 @@ public:
         root->Cnum = 2;
         _k= K;
     }
-//oleg super ref
+
     ~BalancedTreeK();
 
     void Insert(const Key* nkey, const Value* nval);
