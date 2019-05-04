@@ -29,6 +29,8 @@ BTKNode* BalancedTreeK::SearchLeaf(const Key* key) const
 //sasads
 void BalancedTreeK::Insert(const Key* nkey, const Value* nval)
 {
+    if(*(nkey) < *(_min) || *(_max) < *(nkey))//check for valid input
+        return;
     BTKNode* y=root;
     while(y->Children[0]->leaf != true)//go down to leaf level
     {
@@ -58,8 +60,14 @@ void BalancedTreeK::Insert(const Key* nkey, const Value* nval)
     if(nNode!=NULL)//new root will be created
     {
         BTKNode* tempChildren[2];
-        tempChildren[0]=root;//update left child
-        tempChildren[1]=nNode;//update right child
+        if(*(root->key) < *(nNode->key))//old root is smaller then new node
+        {
+            tempChildren[0]=root;//update left child
+            tempChildren[1]=nNode;//update right child
+        } else{ //old root is bigger then new node
+            tempChildren[0]=nNode;//update left child
+            tempChildren[1]=root;//update right child
+        }
         BTKNode* nRoot=new BTKNode(false,NULL,NULL,NULL);
         nRoot->totaLeafs = root->totaLeafs + nNode->totaLeafs; //new root now hold total number of leafs
         nRoot->Cnum=2; //new root have only 2 children
@@ -71,6 +79,8 @@ void BalancedTreeK::Insert(const Key* nkey, const Value* nval)
 
 void BalancedTreeK::Delete(const Key* dkey)
 {
+    if(*(dkey) < *(_min) || *(_max) < *(dkey))//check for valid input
+        return;
     BTKNode* Leaf;
     Leaf = SearchLeaf(dkey); // find the leaf we want to delete
     if(Leaf == NULL)
@@ -92,6 +102,7 @@ void BalancedTreeK::Delete(const Key* dkey)
     }
     y->Cnum=y->Cnum-1;
     y->SetChildren(newYchildren);
+    Leaf->parent = NULL;//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     delete Leaf;
     while(y!=NULL)  //after deleting we have to update the tree
     {
@@ -113,7 +124,7 @@ void BalancedTreeK::Delete(const Key* dkey)
             y->Children[0]->UpdateKey();
             y->Children[0]->UpdateVal();
             root=y->Children[0]; //update the root
-            for(int l = 0; l < 2* K -1; l++)
+            for(int l = 0; l < 2* _k -1; l++) //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 y->Children[l] = NULL;
             y->key = NULL;
             delete y;
@@ -122,6 +133,7 @@ void BalancedTreeK::Delete(const Key* dkey)
         else// no need to update the root, only decrease total leaf num
         {
             y->totaLeafs --;
+            y->UpdateKey();
             y->UpdateVal();
             return;
         }
@@ -204,6 +216,8 @@ BTKNode* BalancedTreeK::Predeccessor(BTKNode* node) const
 
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const
 {
+    if(root == NULL || key1 == NULL || key2 == NULL)
+        return NULL;
     BTKNode* leftKey;
     leftKey=SearchLeaf(key1); //find left boundary
     if(leftKey == NULL)//no key to match in date structure

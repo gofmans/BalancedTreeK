@@ -17,7 +17,7 @@ class  BalancedTreeK {
 private:
 
     BTKNode* root; //pointer default NULL
-    int _k; //Minimum degree
+    unsigned _k; //Minimum degree
     Key* _min ;//pointer default NULL
     Key* _max ;//pointer default NULL
 

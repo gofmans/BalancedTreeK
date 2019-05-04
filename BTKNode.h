@@ -16,13 +16,13 @@ class BTKNode {
     friend class BalancedTreeK;
 private:
     BTKNode* parent;   //Pointer to parent node
-    int k;                  // Minimum degree (defines the range for number of keys)
+    unsigned k;                  // Minimum degree (defines the range for number of keys)
     BTKNode* Children[2*K-1];     // An array of child pointers, initially contain NULL
     unsigned Cnum;      // Current number of children
     bool leaf;      // Is true when node is leaf. Otherwise false
     unsigned totaLeafs; // total number of leafs roted at this
     Key* key;        //key if leaf - maximum key in sub tree if not
-    Value* val;      //value of leaf
+    Value* val;      //value of leaf/ maximum val in sub tree
 
 public:
 

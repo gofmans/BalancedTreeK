@@ -181,7 +181,9 @@ BTKNode* BTKNode::BorrowMerge()
         {
             //-------merge y with x(right brother)---------
             BTKNode* newXchildren[2*k -1];
-            unsigned newTotal = totaLeafs;
+            unsigned newTotal = 0;//change the number of leafs to begin with
+            for (int i =0; i < Cnum; i++)
+                newTotal += Children[i]->totaLeafs;//count how many leafs the current node holds
             for(int i =0; i< k-1; i ++)
                 newXchildren[i] = Children[i]; //at first, take y children (exactly k-1 children)
             for (int i = 0; i< k; i ++) //copy the rest of x's children's
@@ -192,7 +194,7 @@ BTKNode* BTKNode::BorrowMerge()
             x->Cnum = 2*k -1; //x now have maximum number of children
             x->SetChildren(newXchildren);
             x->totaLeafs = newTotal;
-            //-------update z(parent) children---------
+            //-------update z(y's parent) children---------
             BTKNode* tempBrothers[z->Cnum-1];
             int j =0;
             for (int i = 0; i< z->Cnum; i ++)
@@ -204,7 +206,7 @@ BTKNode* BTKNode::BorrowMerge()
             z->Cnum = z->Cnum -1; //update number of z children
             z->SetChildren(tempBrothers);
             for(int l = 0; l < 2* k -1; l++)
-                Children[l] = NULL;
+               Children[l] = NULL;
             key = NULL;
             delete this;
             return z;
@@ -229,7 +231,7 @@ BTKNode* BTKNode::BorrowMerge()
             this->SetChildren(newYchildren);
             totaLeafs = tempYleafs;
             //-------update w(left brother) children---------
-            w->Children[w->Cnum -1] = NULL; //that child is now y's child
+            w->Children[w->Cnum -1] = NULL; //that child is now y's child@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             w->Cnum = w->Cnum -1;//update children counter
             w->SetChildren(w->Children);//update children after loosing right most child
             w->totaLeafs -= newYchildren[0]->totaLeafs; //subtract the missing child leafs from total
